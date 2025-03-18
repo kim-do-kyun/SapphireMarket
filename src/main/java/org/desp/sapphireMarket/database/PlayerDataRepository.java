@@ -35,11 +35,12 @@ public class PlayerDataRepository {
 
         Document document = new Document("uuid", uuid);
         if (playerList.find(Filters.eq("uuid", uuid)).first() == null) {
+            System.out.println("new PlayerData");
             Document newUserDocument = new Document()
                     .append("user_id", user_id)
                     .append("uuid", uuid)
                     .append("sapphireAmount", 0);
-            playerList.insertOne(document);
+            playerList.insertOne(newUserDocument);
         }
 
         int sapphireAmount = playerList.find(document).first().getInteger("sapphireAmount");
@@ -79,5 +80,19 @@ public class PlayerDataRepository {
                 document,
                 new ReplaceOptions().upsert(true)
         );
+    }
+
+    public void reduceSapphireAmount(Player player, int sapphireAmount) {
+        PlayerDataDto playerDataDto = playerListCache.get(player.getUniqueId().toString());
+        if (playerDataDto.getSapphireAmount() < sapphireAmount) {
+            playerDataDto.setSapphireAmount(0);
+        } else {
+            playerDataDto.setSapphireAmount(playerDataDto.getSapphireAmount() - sapphireAmount);
+        }
+        playerListCache.put(player.getUniqueId().toString(), playerDataDto);
+    }
+
+    public Map<String, PlayerDataDto> getPlayerListCache() {
+        return playerListCache;
     }
 }

@@ -10,4 +10,6 @@ public class ItemDataDto {
     private String MMOItem_ID;
     private int amount;
     private int price;
+    private int userMaxPurchaseAmount;
+    private int serverMaxPurchaseAmount;
 }

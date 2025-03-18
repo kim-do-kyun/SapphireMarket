@@ -27,11 +27,13 @@ public class ItemDataRepository {
         return instance;
     }
 
-    public void insertItemData(String MMOItem_ID, int amount, int price) {
+    public void insertItemData(ItemDataDto newItemData) {
         Document document = new Document()
-                .append("MMOItem_ID", MMOItem_ID)
-                .append("amount", amount)
-                .append("price", price);
+                .append("MMOItem_ID", newItemData.getMMOItem_ID())
+                .append("amount", newItemData.getAmount())
+                .append("price", newItemData.getPrice())
+                .append("userMaxPurchaseAmount", newItemData.getUserMaxPurchaseAmount())
+                .append("serverMaxPurchaseAmount", newItemData.getServerMaxPurchaseAmount());
 
         itemDataDB.insertOne(document);
     }
@@ -43,10 +45,11 @@ public class ItemDataRepository {
                     .MMOItem_ID(document.getString("MMOItem_ID"))
                     .amount(document.getInteger("amount"))
                     .price(document.getInteger("price"))
+                    .userMaxPurchaseAmount(document.getInteger("userMaxPurchaseAmount"))
+                    .serverMaxPurchaseAmount(document.getInteger("serverMaxPurchaseAmount"))
                     .build();
 
             itemDataList.put(item.getMMOItem_ID(), item);
         }
     }
-
 }

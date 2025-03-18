@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.desp.sapphireMarket.database.ItemDataRepository;
+import org.desp.sapphireMarket.dto.ItemDataDto;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemRegisterCommand implements CommandExecutor {
@@ -18,12 +19,22 @@ public class ItemRegisterCommand implements CommandExecutor {
         if (!player.isOp()){
             return false;
         }
-
+        // /아이템등록 기타_판도라의열쇠 <갯수> <가격> <유저최대구매가능갯수> <서버전체유저구매가능갯수> *999으로 설정시 제한없음
         String MMOItem_ID = strings[0];
         int amount = Integer.parseInt(strings[1]);
         int price = Integer.parseInt(strings[2]);
+        int userMaxPurchaseAmount = Integer.parseInt(strings[3]);
+        int serverMaxPurchaseAmount = Integer.parseInt(strings[4]);
 
-        ItemDataRepository.getInstance().insertItemData(MMOItem_ID, amount, price);
+        ItemDataDto newItem = ItemDataDto.builder()
+                .MMOItem_ID(MMOItem_ID)
+                .amount(amount)
+                .price(price)
+                .userMaxPurchaseAmount(userMaxPurchaseAmount)
+                .serverMaxPurchaseAmount(serverMaxPurchaseAmount)
+                .build();
+
+        ItemDataRepository.getInstance().insertItemData(newItem);
         return false;
     }
 }

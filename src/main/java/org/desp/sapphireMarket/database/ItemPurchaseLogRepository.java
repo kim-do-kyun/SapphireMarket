@@ -21,14 +21,14 @@ public class ItemPurchaseLogRepository {
         return instance;
     }
 
-    public void insertPurchaseLog(ItemPurchaseLogDto dto, String currentTime) {
+    public void insertPurchaseLog(ItemPurchaseLogDto dto) {
         Document document = new Document()
                 .append("user_id", dto.getUser_id())
                 .append("uuid", dto.getUuid())
                 .append("purchaseItemID", dto.getPurchaseItemID())
                 .append("amount", dto.getAmount())
                 .append("purchasePrice", dto.getPurchasePrice())
-                .append("purchaseTime", currentTime);
+                .append("purchaseTime", dto.getPurchaseTime());
 
         itemPurchaseDB.insertOne(document);
     }

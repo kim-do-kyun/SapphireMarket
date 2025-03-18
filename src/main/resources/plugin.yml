@@ -2,6 +2,9 @@ name: SapphireMarket
 version: '1.0-SNAPSHOT'
 main: org.desp.sapphireMarket.SapphireMarket
 api-version: '1.20'
-command:
+commands:
+  사파이어:
   사파이어상점:
-  아이템등록:
+  사파이어아이템등록:
+
+
