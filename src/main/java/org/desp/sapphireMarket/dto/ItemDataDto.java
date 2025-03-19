@@ -12,4 +12,5 @@ public class ItemDataDto {
     private int price;
     private int userMaxPurchaseAmount;
     private int serverMaxPurchaseAmount;
+    private int slot;
 }

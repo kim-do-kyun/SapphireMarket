@@ -51,9 +51,15 @@ public class ItemConfirmListener implements Listener {
 
         int slot = event.getRawSlot();
         if ((0 <= slot && slot <= 2) || (9 <= slot && slot <= 11) || (18 <= slot && slot <= 20)) {    //구매취소
-            SapphireMarketGUI sapphireMarketGUI = new SapphireMarketGUI();
+            SapphireMarketGUI sapphireMarketGUI = new SapphireMarketGUI(player);
             player.openInventory(sapphireMarketGUI.getInventory());
         } else if ((6 <= slot && slot <= 8) || (15 <= slot && slot <= 17) || (24 <= slot && slot <= 26)) {    //구매
+            if (purchaseItemDataDto.getServerMaxPurchaseAmount() != -1 ) {
+
+            }
+
+
+
             if (playerData.getSapphireAmount() >= purchaseItemPrice) {  //구매 가능
                 player.sendMessage("§f[사파이어상점]: ◇ 아이템 구매에 성공하였습니다.");
                 player.getInventory().addItem(purchaseItemStack);
@@ -74,7 +80,7 @@ public class ItemConfirmListener implements Listener {
             } else {                    //구매 불가능
                 player.sendMessage("[사파이어상점]: ◇ §c 잔액이 부족합니다.");
             }
-            SapphireMarketGUI sapphireMarketGUI = new SapphireMarketGUI();
+            SapphireMarketGUI sapphireMarketGUI = new SapphireMarketGUI(player);
             player.openInventory(sapphireMarketGUI.getInventory());
         }
     }

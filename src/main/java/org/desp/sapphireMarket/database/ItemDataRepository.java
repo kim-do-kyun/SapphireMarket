@@ -2,10 +2,12 @@ package org.desp.sapphireMarket.database;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import org.bson.Document;
+import org.bukkit.entity.Player;
 import org.desp.sapphireMarket.dto.ItemDataDto;
 
 public class ItemDataRepository {
@@ -33,7 +35,8 @@ public class ItemDataRepository {
                 .append("amount", newItemData.getAmount())
                 .append("price", newItemData.getPrice())
                 .append("userMaxPurchaseAmount", newItemData.getUserMaxPurchaseAmount())
-                .append("serverMaxPurchaseAmount", newItemData.getServerMaxPurchaseAmount());
+                .append("serverMaxPurchaseAmount", newItemData.getServerMaxPurchaseAmount())
+                .append("slot", newItemData.getSlot());
 
         itemDataDB.insertOne(document);
     }
@@ -47,9 +50,21 @@ public class ItemDataRepository {
                     .price(document.getInteger("price"))
                     .userMaxPurchaseAmount(document.getInteger("userMaxPurchaseAmount"))
                     .serverMaxPurchaseAmount(document.getInteger("serverMaxPurchaseAmount"))
+                    .slot(document.getInteger("slot"))
                     .build();
 
             itemDataList.put(item.getMMOItem_ID(), item);
         }
+    }
+
+    public FindIterable<Document> findPlayerIndividualItems(Player player) {
+        String uuid = player.getUniqueId().toString();
+        String userId = player.getName();
+
+        // Step 1: 제한 있는 상점 아이템만 불러오기
+        FindIterable<Document> limitedItems = itemDataDB.find(
+                Filters.ne("userMaxPurchaseAmount", -1)
+        );
+        return limitedItems;
     }
 }

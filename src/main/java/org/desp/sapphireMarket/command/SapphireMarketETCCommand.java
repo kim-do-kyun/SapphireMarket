@@ -34,7 +34,7 @@ public class SapphireMarketETCCommand implements CommandExecutor, TabCompleter {
 
                 PlayerDataDto playerData = playerDataRepository.getPlayerData(player);
                 int sapphireAmount = playerData.getSapphireAmount();
-                player.sendMessage("§a◇ §e"+playerName+"§f님의 캐시: §a"+sapphireAmount+"§f원");
+                player.sendMessage("§a◇ §e"+playerName+"§f님의 사파이어: §a"+sapphireAmount+"§f원");
                 yield true;
             }
             case "지급" -> {
@@ -50,7 +50,7 @@ public class SapphireMarketETCCommand implements CommandExecutor, TabCompleter {
 
                 int minusAmount = Integer.parseInt(strings[2]);
                 playerDataRepository.reduceSapphireAmount(player, minusAmount);
-                player.sendMessage("§a◇ §e" + playerName + "§f님의 캐시에서 §c" + minusAmount + "§f원을 차감했습니다.");
+                player.sendMessage("§a◇ §e" + playerName + "§f님의 사파이어에서 §c" + minusAmount + "§f원을 차감했습니다.");
                 yield true;
 
             }

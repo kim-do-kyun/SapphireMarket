@@ -35,7 +35,6 @@ public class PlayerDataRepository {
 
         Document document = new Document("uuid", uuid);
         if (playerList.find(Filters.eq("uuid", uuid)).first() == null) {
-            System.out.println("new PlayerData");
             Document newUserDocument = new Document()
                     .append("user_id", user_id)
                     .append("uuid", uuid)

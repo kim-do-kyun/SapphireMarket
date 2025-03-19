@@ -10,6 +10,7 @@ import org.desp.sapphireMarket.command.SapphireMarketCommand;
 import org.desp.sapphireMarket.command.SapphireMarketETCCommand;
 import org.desp.sapphireMarket.database.ItemDataRepository;
 import org.desp.sapphireMarket.database.PlayerDataRepository;
+import org.desp.sapphireMarket.database.PlayerIndividualPurchaseRepository;
 import org.desp.sapphireMarket.listener.ItemConfirmListener;
 import org.desp.sapphireMarket.listener.ItemSelectListener;
 import org.desp.sapphireMarket.listener.PlayerJoinAndQuitListener;
@@ -26,6 +27,8 @@ public final class SapphireMarket extends JavaPlugin {
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         for (Player player : onlinePlayers) {
             PlayerDataRepository.getInstance().loadPlayerData(player);
+            PlayerIndividualPurchaseRepository.getInstance().registerItem(player);
+            PlayerIndividualPurchaseRepository.getInstance().loadPlayerPurchaseCache(player);
         }
 
         Bukkit.getPluginManager().registerEvents(new PlayerJoinAndQuitListener(), this);
@@ -46,6 +49,7 @@ public final class SapphireMarket extends JavaPlugin {
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         for (Player player : onlinePlayers) {
             PlayerDataRepository.getInstance().savePlayerData(player);
+            PlayerIndividualPurchaseRepository.getInstance().saveDBIndividualPurchaseData(player);
         }
     }
 }

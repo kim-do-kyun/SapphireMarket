@@ -16,7 +16,7 @@ public class SapphireMarketCommand implements CommandExecutor {
             return false;
         }
 
-        SapphireMarketGUI sapphireMarketGUI = new SapphireMarketGUI();
+        SapphireMarketGUI sapphireMarketGUI = new SapphireMarketGUI(player);
         player.openInventory(sapphireMarketGUI.getInventory());
         return false;
     }
