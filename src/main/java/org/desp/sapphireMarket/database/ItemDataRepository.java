@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import org.bson.Document;
-import org.bukkit.entity.Player;
 import org.desp.sapphireMarket.dto.ItemDataDto;
 
 public class ItemDataRepository {
@@ -36,6 +35,7 @@ public class ItemDataRepository {
                 .append("amount", newItemData.getAmount())
                 .append("price", newItemData.getPrice())
                 .append("userMaxPurchaseAmount", newItemData.getUserMaxPurchaseAmount())
+                .append("userDailyPurchaseAmount", newItemData.getUserDailyPurchaseAmount())
                 .append("serverMaxPurchaseAmount", newItemData.getServerMaxPurchaseAmount())
                 .append("slot", newItemData.getSlot());
 
@@ -50,6 +50,7 @@ public class ItemDataRepository {
                     .amount(document.getInteger("amount"))
                     .price(document.getInteger("price"))
                     .userMaxPurchaseAmount(document.getInteger("userMaxPurchaseAmount"))
+                    .userDailyPurchaseAmount(document.getInteger("userDailyPurchaseAmount"))
                     .serverMaxPurchaseAmount(document.getInteger("serverMaxPurchaseAmount"))
                     .slot(document.getInteger("slot"))
                     .build();
@@ -58,8 +59,8 @@ public class ItemDataRepository {
         }
     }
 
-    public void reduceServerMaxPurchaseAMount(ItemDataDto purchaseItemDataDto) {
-        purchaseItemDataDto.setServerMaxPurchaseAmount(purchaseItemDataDto.getServerMaxPurchaseAmount() - 1);
+    public void reduceServerMaxPurchaseAMount(ItemDataDto purchaseItemDataDto, int amount) {
+        purchaseItemDataDto.setServerMaxPurchaseAmount(purchaseItemDataDto.getServerMaxPurchaseAmount() - amount);
         itemDataList.put(purchaseItemDataDto.getMMOItem_ID(), purchaseItemDataDto);
 
         Document document = new Document()
@@ -67,6 +68,7 @@ public class ItemDataRepository {
                 .append("amount", purchaseItemDataDto.getAmount())
                 .append("price", purchaseItemDataDto.getPrice())
                 .append("userMaxPurchaseAmount", purchaseItemDataDto.getUserMaxPurchaseAmount())
+                .append("userDailyPurchaseAmount", purchaseItemDataDto.getUserDailyPurchaseAmount())
                 .append("serverMaxPurchaseAmount", purchaseItemDataDto.getServerMaxPurchaseAmount())
                 .append("slot", purchaseItemDataDto.getSlot());
 
@@ -75,16 +77,5 @@ public class ItemDataRepository {
                 document,
                 new ReplaceOptions().upsert(true)
         );
-    }
-
-    public FindIterable<Document> findPlayerIndividualItems(Player player) {
-        String uuid = player.getUniqueId().toString();
-        String userId = player.getName();
-
-        // Step 1: 제한 있는 상점 아이템만 불러오기
-        FindIterable<Document> limitedItems = itemDataDB.find(
-                Filters.ne("userMaxPurchaseAmount", -1)
-        );
-        return limitedItems;
     }
 }

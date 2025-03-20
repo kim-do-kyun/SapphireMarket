@@ -27,10 +27,10 @@ public class SapphireMarketETCCommand implements CommandExecutor, TabCompleter {
         }
 
         PlayerDataRepository playerDataRepository = PlayerDataRepository.getInstance();
+        String playerName = strings[1];
 
         return switch (strings[0]) {
             case "보기" -> {
-                String playerName = strings[1];
 
                 PlayerDataDto playerData = playerDataRepository.getPlayerData(player);
                 int sapphireAmount = playerData.getSapphireAmount();
@@ -38,7 +38,7 @@ public class SapphireMarketETCCommand implements CommandExecutor, TabCompleter {
                 yield true;
             }
             case "지급" -> {
-                String playerName = strings[1];
+//                String playerName = strings[1];
 
                 int amount = Integer.parseInt(strings[2]);
                 playerDataRepository.addSapphireAmount(player, amount);
@@ -46,7 +46,7 @@ public class SapphireMarketETCCommand implements CommandExecutor, TabCompleter {
                 yield true;
             }
             case "차감" -> {
-                String playerName = strings[1];
+//                String playerName = strings[1];
 
                 int minusAmount = Integer.parseInt(strings[2]);
                 playerDataRepository.reduceSapphireAmount(player, minusAmount);
